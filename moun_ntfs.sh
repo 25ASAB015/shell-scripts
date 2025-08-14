@@ -54,7 +54,8 @@ fi
 #    El usuario debe introducir el nombre del dispositivo, por ejemplo 'sdb'
 read -p "Ingresa el nombre del dispositivo a montar (ej. sdb): " DISPOSITIVO
 
-PUNTO_MONTAJE="/run/media/$USER/NTFS_Externo"
+#PUNTO_MONTAJE="/run/media/$USER/NTFS_Externo"
+PUNTO_MONTAJE="/run/media/$USER/1D8A846764B72660"
 USUARIO=$(id -u)
 GRUPO=$(id -g)
 
