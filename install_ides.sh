@@ -102,6 +102,7 @@ PARU_PKGS=(
     kiro-bin
     crush-bin
     visual-studio-code-bin visual-studio-code-insiders-bin
+    scooter the_platinum_searcher
 )
 for pkg in "${PARU_PKGS[@]}"; do
     if is_pacman_pkg_installed "$pkg"; then
@@ -127,6 +128,32 @@ for pkg in "${!SNAP_PKGS[@]}"; do
         sudo snap install "$pkg" ${SNAP_PKGS[$pkg]}
     fi
 done
+
+
+# Define la lista de paquetes que quieres instalar
+PACMANS="zed eslint pyright rust-analyzer clang vulkan-intel vulkan-tools broot"
+
+# Crea un array vacío para los paquetes faltantes
+MISSING_PACKAGES=()
+
+# Itera sobre cada paquete en la lista
+for pkg in $PACMANS; do
+    # Verifica si el paquete está instalado usando pacman -Q
+    if ! pacman -Q "$pkg" &> /dev/null; then
+        # Si no está instalado, añádelo a la lista de faltantes
+        MISSING_PACKAGES+=("$pkg")
+    fi
+done
+
+# Si la lista de paquetes faltantes no está vacía
+if [ ${#MISSING_PACKAGES[@]} -gt 0 ]; then
+    echo "Los siguientes paquetes no están instalados y serán instalados:"
+    echo "${MISSING_PACKAGES[@]}"
+    # Instala los paquetes faltantes
+    sudo pacman -S "${MISSING_PACKAGES[@]}"
+else
+    echo "Todos los paquetes ya están instalados. No es necesaria la instalación."
+fi
 
 log "Instalación finalizada."
 success "✅ Todas las herramientas fueron instaladas correctamente."
